@@ -1,0 +1,19 @@
+{
+  "name": "testing-spotify",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5"
+  },
+  "dependencies": {
+    "chart.js": "^4.3.3",
+    "sass": "^1.65.1"
+  }
+}

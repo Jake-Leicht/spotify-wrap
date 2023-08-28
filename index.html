@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles/index.scss">
+    <title>Spotify Wrap</title>
+    </head>
+    <body id="body">
+        <section id="intro__section" class="intro">
+            <h1 class="intro__title">Want to checkout your Spotify Wrap?</h1>
+            <button id="intro__btn" class="intro__btn">Next</button>
+        </section>
+
+        <section id="instructions__section" class="instructions">
+            <!-- <div>
+                <h1 class="instructions__title">Getting Started</h1>
+                <button>Back</button>
+            </div> -->
+            <ul class="instructions__list">
+                <li>
+                    <div>
+                        <h3>1. Go to Spotify For Developers and log in using your Spotify account</h3>
+                        <a href="https://developer.spotify.com/" target="_blank" rel="noopener noreferrer">
+                            <button>Go to Website</button>
+                        </a>
+                    </div>
+                    <img src="/websiteLogin.jpeg" alt="Spotify for Developer's Website" />
+                </li>
+                <li>
+                    <div>
+                        <h3>2. Next go to your dashboard (located in the top right corner). Click your name then dashboard</h3>
+                    </div>
+                    <img src="/dashboard.jpeg" alt="Spotify for Developers | Dashboard" />
+                </li>
+                <li>
+                    <div>
+                        <h3>3. (Create your app) click the 'create app' button</h3>
+                        <p>Most of the inputs are optional, just give your app a name (like Spotify Wrap) 
+                            and in the 'Redirect URI' input, enter " http://localhost:5173/callback ". Check 
+                            the terms and services and click "save". (If it asks you to enter a description, 
+                            fill it in with any optional text: such as 'Spotify Wrap')</p>
+                    </div>
+                    <img src="/createApp.jpeg" alt="Create App" />
+                </li>
+                <li>
+                    <div>
+                        <h3>4. Finally, click on your created app and go to Settings. You'll find it in 
+                            the top right corner of the 'Home' page for your app</h3>
+                    </div>
+                    <img src="/settings.jpeg" alt="Create App | Settings" />
+                </li>
+                <li>
+                    <div>
+                        <h5>5. Copy your Client ID and paste it into the input bar below</h5>
+                    </div>
+                    <img src="/appID.jpeg" alt="Create App | Client ID" />
+                </li>
+                <li>
+                    <div>
+                        <h3>6. Finally, click submit!</h3>
+                        <div class="instructions__list-input">
+                            <label htmlFor="client-id-input">
+                                <input id="client-id-input" type="text" placeholder="Enter Client ID..."/>
+                            </label>
+                            <button type="submit" id="instruction__submit-btn">Submit</button>
+                        </div>
+                        <p class="instruction___list-note">*Note: none of your personal or Spotify information is being stored or collected. 
+                            To assure safety concerns, afterwards you can delete the app you created on the 
+                            Spotify Developers Website preventing any access to your Spotify info, by deleting the Client Id used to access it.*</p>
+                    </div>
+                </li>
+            </ul>
+            </div>
+        </section>
+
+        <section id="dashboard__section" class="dashboard hide">
+            <div class="dashboard__nav">
+                <a id="dashboard__home-btn" href="http://localhost:5173/">
+                    <button>Home</button>
+                </a>
+            </div>
+            <div class="dashboard__tracks">
+                <ul id="dashboard__tracks-list" class="dashboard__tracks-list">
+                    <li class="dashboard__tracks-elem"><p>Track w/ title</p></li>
+                    <li class="dashboard__tracks-elem"><p>Track w/ title</p></li>
+                    <li class="dashboard__tracks-elem"><p>Track w/ title</p></li>
+                    <li class="dashboard__tracks-elem"><p>Track w/ title</p></li>
+                    <li class="dashboard__tracks-elem"><p>Track w/ title</p></li>
+                    <li class="dashboard__tracks-elem"><p>Track w/ title</p></li>
+                    <li class="dashboard__tracks-elem"><p>Track w/ title</p></li>
+                    <li class="dashboard__tracks-elem"><p>Track w/ title</p></li>
+                    <li class="dashboard__tracks-elem"><p>Track w/ title</p></li>
+                    <li class="dashboard__tracks-elem"><p>Track w/ title</p></li>
+                </ul>
+                <div class="dashboard__tracks-pagination">
+                    <button id="dashboard__tracks-pagination-btn-prev">Prev</button>
+                    <p id="dashboard__tracks-pagination-currPage">1</p>
+                    <p>|</p>
+                    <p id="dashboard__tracks-pagination-totalPages">5</p>
+                    <button id="dashboard__tracks-pagination-btn-next">Next</button>
+                </div>
+            </div>
+            <div class="dashboard__pieChart">
+                <canvas id="myChart"></canvas>
+            </div>
+            <div class="dashboard__artists">
+                <ul id="dashboard__artists-list" class="dashboard__artists-list">
+                    <li class="dashboard__artists-elem"><p>Artists w/ Title (1)</p></li>
+                    <li class="dashboard__artists-elem"><p>Artists w/ Title</p></li>
+                    <li class="dashboard__artists-elem"><p>Artists w/ Title</p></li>
+                    <li class="dashboard__artists-elem"><p>Artists w/ Title</p></li>
+                    <li class="dashboard__artists-elem"><p>Artists w/ Title</p></li>
+                    <li class="dashboard__artists-elem"><p>Artists w/ Title</p></li>
+                    <li class="dashboard__artists-elem"><p>Artists w/ Title</p></li>
+                    <li class="dashboard__artists-elem"><p>Artists w/ Title</p></li>
+                    <li class="dashboard__artists-elem"><p>Artists w/ Title</p></li>
+                    <li class="dashboard__artists-elem"><p>Artists w/ Title</p></li>
+                </ul>
+                <div class="dashboard__artists-pagination">
+                    <button id="dashboard__artists-pagination-btn-prev">Prev</button>
+                    <p id="dashboard__artists-pagination-currPage">1</p>
+                    <p>|</p>
+                    <p id="dashboard__artists-pagination-totalPages">5</p>
+                    <button id="dashboard__artists-pagination-btn-next">Next</button>
+                </div>
+            </div>
+            <!-- <div class="other">
+                <p>Testing text overflow properties on a long string of characters</p>
+            </div> -->
+        </section>
+    </body>
+    <script type="module" src="/src/index.ts"></script>
+    <script type="module" src="/src/script.ts"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</html>

@@ -1,0 +1,374 @@
+$accentColor: #1ed760;
+$background: #090909;
+$background2: #232323;
+
+$animation_length: 1000ms;
+
+html, *{
+    font-size: calc(16px + 0.390625vw); // * Fluid Design
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+
+    body{
+        width: 100vw;
+        height: 100vh;
+        color: $accentColor;
+        overflow-x: hidden;
+        background-color: $background !important;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+        &::-webkit-scrollbar{
+            display: none;
+        }
+        position: relative;
+
+        .intro{
+            width: 100vw;
+            max-width: 992px;
+            margin: 0 auto;
+            height: 100vh;
+            color: $accentColor;
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: center;
+            align-items: center;
+            gap: 4%;
+    
+            @keyframes glow {
+                0%{
+                    text-shadow: 0 0 10px $accentColor;
+                }
+                50%{
+                    text-shadow: 0 0 20px $accentColor;
+                }
+                100%{
+                    text-shadow: 0 0 10px $accentColor;
+                }
+            }
+    
+            .intro__title{
+                font-size: 2.0rem;
+                white-space: normal;
+                text-align: center;
+                text-shadow: 0 0 10px $accentColor;
+                //animation: glow 1s ease infinite;
+            }
+    
+            .intro__btn{
+                letter-spacing: 4px;
+                color: $accentColor;
+                background-color: $background2;
+                border: 3px solid $accentColor;
+                border-radius: 8px;
+                font-size: 1.2rem;
+                padding: 6px 18px;
+                transition: background-color 500ms, color 500ms;
+    
+                &:hover{
+                    background-color: $accentColor;
+                    color: $background;
+                    transition: background-color 500ms, color 500ms;
+                }
+            }
+        }
+
+        .instructions{
+            overflow-x: hidden;
+            width: 100vw;
+            height: 100vh;
+            color: whitesmoke;
+            padding: 1% 4%;
+
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+            &::-webkit-scrollbar{
+                display: none;
+            }
+
+            .instructions__list{
+                list-style: none;
+                padding: 0;
+
+                li{
+                    border: 2px solid $accentColor;
+                    padding: 1%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin: 3% auto;
+                    background-color: $background2;
+                    border-radius: 12px;
+                    max-width: 1200px;
+                    min-height: 300px;
+                    
+
+                    &:nth-child(2n+0){
+                        display: flex;
+                        flex-direction: row-reverse;
+
+                        @media screen and (max-width: 992px){
+                            display: flex;
+                            flex-direction: column;
+                        }
+                    }
+
+                    &:last-child{
+                        div{
+                            text-align: center;
+                        }
+                    }
+
+                    img{
+                        flex: 1 1 0;
+                        width: 50%;
+                        min-width: 150px;
+                        border-radius: 12px;
+
+                        @media screen and (max-width: 576px){
+                            width: 94%;
+                        }
+                    }
+
+                    div{
+                        padding: 3% 6%;
+                        flex: 1 1 1;
+
+                        *{
+                            font-size: 1.0rem;
+                        }
+
+                        h1, h2, h3, h4, h5, h6, p{
+                            width: 35ch;
+                            white-space: normal;
+                            word-wrap: normal;
+                            text-overflow: ellipsis;
+                            margin: 0px auto;
+
+                            @media screen and (max-width: 992px){
+                                width: 50ch;
+                            }
+                        }
+
+                        button{
+                            color: $accentColor;
+                            background-color: $background2;
+                            border: 3px solid $accentColor;
+                            border-radius: 8px;
+                            font-size: 1.0rem;
+                            padding: 6px 18px;
+                            margin-top: clamp(4px, 2%, 12px);
+                            transition: background-color 500ms, color 500ms;
+                
+                            &:hover{
+                                background-color: $accentColor;
+                                color: $background;
+                                transition: background-color 500ms, color 500ms;
+                            }
+                        }
+
+                        .instructions__list-input{
+                            padding: 0;
+                            text-align: center;
+
+                            input{
+                                color: $accentColor;
+                                background-color: $background2;
+                                border: 3px solid $accentColor;
+                                border-radius: 8px;
+                                font-size: clamp(16px, 1.0rem, 24px);
+                                padding: 6px 18px;
+                                transition: background-color 500ms, color 500ms;
+                            }
+    
+                            button{
+                                color: $accentColor;
+                                background-color: $background2;
+                                border: 3px solid $accentColor;
+                                border-radius: 8px;
+                                font-size: 1.0rem;
+                                padding: 6px 18px;
+                                margin-top: clamp(4px, 2%, 12px);
+                                transition: background-color 500ms, color 500ms;
+                    
+                                &:hover{
+                                    background-color: $accentColor;
+                                    color: $background;
+                                    transition: background-color 500ms, color 500ms;
+                                }
+                            }
+                        }
+
+                        .instruction___list-note{
+                            color: lightgray;
+                            font-size: 0.8rem;
+                            width: 100%;
+                            margin-top: clamp(10px, 2%, 20px);
+                        }
+
+                        @media screen and (max-width: 576px){
+                            width: 100%;
+                        }
+                    }
+
+                    @media screen and (max-width: 992px){
+                        display: flex;
+                        flex-direction: column;
+                    }
+
+                    // @media screen and (max-width: 576px){
+                    //     height: fit-content;
+                    // }
+                }
+            }
+        }
+
+        .dashboard{
+            width: 100vw;
+            height: fit-content;
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: center;
+            align-items: center;
+            row-gap: 6vh;
+            padding-bottom: 20px;
+
+            .dashboard__nav{
+                border-bottom: 4px solid $background2;
+                width: 100%;
+                height: 8vh;
+                display: flex;
+                flex-flow: row nowrap;
+                justify-content: start;
+                align-items: center;
+                padding: 0 clamp(8px, 4%, 20px);
+
+                button{
+                    color: $accentColor;
+                    background-color: $background2;
+                    border: 3px solid $accentColor;
+                    border-radius: 8px;
+                    font-size: 1.0rem;
+                    padding: 6px 18px;
+                    //margin-top: clamp(4px, 2%, 12px);
+                    transition: background-color 500ms, color 500ms;
+        
+                    &:hover{
+                        background-color: $accentColor;
+                        color: $background;
+                        transition: background-color 500ms, color 500ms;
+                    }
+                }
+            }
+
+            .dashboard__tracks, .dashboard__artists{
+                border: 4px solid $background2;
+                border-radius: 24px;
+                width: clamp(200px, 70vw, 800px);
+                height: 55vh;
+                display: flex;
+                flex-flow: column nowrap;
+                justify-content: space-between;
+                
+                .dashboard__tracks-list, .dashboard__artists-list{
+                    list-style: none;
+                    padding: 0;
+                    margin: 0;
+                    height: 90%;
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    align-items: center;
+    
+                    li{
+                        background-color: $background2;
+                        border-radius: 14px;
+                        width: 92%;
+                        margin: 0px 4%;
+                        padding: 0px clamp(6px, 4%, 50px);
+                        background-color: $background2;
+                        height: clamp(60px, 20%, 100px);
+                        display: flex;
+                        align-items: center;
+
+                        p{
+                            width: 26ch;
+                            font-size: 1.0rem;
+                            overflow: hidden;
+                            white-space: nowrap;
+                            text-overflow: ellipsis;
+                        }
+                    }
+                }
+
+                .dashboard__tracks-pagination, .dashboard__artists-pagination{
+                    border: 0px solid $background2;
+                    border-radius: 0px 0px 14px 14px;
+                    background-color: $background2;
+                    height: 10%;
+                    display: flex;
+                    flex-flow: row nowrap;
+                    justify-content: center;
+                    column-gap: 6%;
+                    align-items: center;
+                    padding: 8px 0px;
+
+                    button{
+                        color: $accentColor;
+                        background-color: $background2;
+                        border: 3px solid $accentColor;
+                        border-radius: 8px;
+                        font-size: 1.0rem;
+                        padding: 6px 18px;
+                        transition: background-color 500ms, color 500ms;
+            
+                        &:hover{
+                            background-color: $accentColor;
+                            color: $background;
+                            transition: background-color 500ms, color 500ms;
+                        }
+                    }
+                }
+            }
+
+            .dashboard__pieChart{
+                background-color: $background2;
+                border: 4px solid $background2;
+                border-radius: 24px;
+                width: clamp(200px, 70vw, 800px);
+                height: 55vh;
+                display: flex;
+                justify-content: center;
+                padding: 8px 0px;
+
+                *{
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+
+            .other{
+                display: flex;
+                justify-content: space-between;
+
+                p{
+                    width: 20ch;
+                    font-size: 1.0rem;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                }
+            }
+        }
+    }
+
+    .hide{
+        opacity: 0 !important;
+        content-visibility: hidden !important;
+    }
+
+    .hidden{
+        display: none !important;
+    }
+}
