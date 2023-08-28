@@ -1,8 +1,5 @@
 import { Chart } from 'chart.js/auto';
 
-//const clientId = "e925461389b347689c883e63949a316b";    // & Jake 
-// *Jules const clientId = "bbf556983772485dbeba0f112fa670bc";
-
 const submitBtn = <HTMLButtonElement> document.getElementById("instruction__submit-btn");
 const params = new URLSearchParams(window.location.search);
 const code = params.get("code");
@@ -65,13 +62,13 @@ export async function getSpotifyData(id: string){
         loadGraphs();
     }
 
-    function retrieveData(){
-        console.log("RETRIEVE DATA");
-        displayUser(JSON.parse(localStorage.getItem("profile")));
-        populateTracks(JSON.parse(localStorage.getItem("topTracks")), TRACK_PAGINATION_INDEX);
-        populateArtists(JSON.parse(localStorage.getItem("topArtists")), ARTIST_PAGINATION_INDEX);
-        loadGraphs();
-    }
+    // function retrieveData(){
+    //     console.log("RETRIEVE DATA");
+    //     displayUser(JSON.parse(localStorage.getItem("profile")));
+    //     populateTracks(JSON.parse(localStorage.getItem("topTracks")), TRACK_PAGINATION_INDEX);
+    //     populateArtists(JSON.parse(localStorage.getItem("topArtists")), ARTIST_PAGINATION_INDEX);
+    //     loadGraphs();
+    // }
 }
 
 function displayUser(data: any){
@@ -330,4 +327,6 @@ function loadGraphs(){
             }
         }
     });
+
+    console.log(chart);
 }
