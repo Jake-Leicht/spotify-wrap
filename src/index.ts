@@ -32,7 +32,7 @@ TIME_FRAME_INPUT.addEventListener("change", () => {
 });
 
 window.onload = () => {
-    //localStorage.clear();
+    localStorage.clear();
     document.getElementById("body").scrollIntoView();
 
     switch(localStorage.getItem("progression")){
