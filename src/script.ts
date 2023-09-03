@@ -5,7 +5,7 @@ import { verifyInput, clearInput } from '.';
 //export const TESTING_MAIN_URI: string = "http://localhost:5173/";
 //export const TESTING_REDIRECT_URI: string = "http://localhost:5173/callback";
 
-export const TESTING_MAIN_URI: string = "https://spotify-wrap.vercel.app/"
+export const TESTING_MAIN_URI: string = "https://spotify-wrap.vercel.app/";
 export const TESTING_REDIRECT_URI: string = "https://spotify-wrap.vercel.app/callback";
 
 const submitBtn = <HTMLButtonElement> document.getElementById("instruction__submit-btn");
