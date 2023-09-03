@@ -54,7 +54,11 @@ html, *{
                 white-space: normal;
                 text-align: center;
                 text-shadow: 0 0 10px $accentColor;
-                //animation: glow 1s ease infinite;
+                animation: glow 1s ease infinite;
+
+                @media screen and (max-width: 576px){
+                    font-size: 1.7rem;
+                }
             }
     
             .intro__btn{
@@ -103,6 +107,10 @@ html, *{
                     border-radius: 12px;
                     max-width: 1200px;
                     min-height: 300px;
+
+                    @media screen and (max-width: 576px){
+                        min-height: 375px;
+                    }
                     
 
                     &:nth-child(2n+0){
@@ -141,10 +149,8 @@ html, *{
                         }
 
                         h1, h2, h3, h4, h5, h6, p{
-                            width: 35ch;
+                            width: 30ch !important;
                             white-space: normal;
-                            word-wrap: normal;
-                            text-overflow: ellipsis;
                             margin: 0px auto;
 
                             @media screen and (max-width: 992px){
@@ -173,6 +179,33 @@ html, *{
                             padding: 0;
                             text-align: center;
 
+                            .instruction__timeframe-lbl{
+                                display: none;
+                            }
+
+                            .timeframe-input-select{
+                                color: gray;
+                                background-color: $background2;
+                                border: 3px solid $accentColor;
+                                border-radius: 8px;
+                                font-size: clamp(16px, 1.0rem, 24px);
+                                padding: 6px 18px;
+                                transition: background-color 500ms, color 500ms;
+
+                                @media screen and (max-width: 576px) {
+                                    margin: 8px;
+                                }
+
+                                option{
+                                    color: $accentColor;
+
+                                    &:checked{
+                                        color: whitesmoke;
+                                        background-color: rgba($accentColor, 0.4);
+                                    }
+                                }
+                            }
+
                             input{
                                 color: $accentColor;
                                 background-color: $background2;
@@ -181,6 +214,10 @@ html, *{
                                 font-size: clamp(16px, 1.0rem, 24px);
                                 padding: 6px 18px;
                                 transition: background-color 500ms, color 500ms;
+
+                                @media screen and (max-width: 576px) {
+                                    margin: 8px;
+                                }
                             }
     
                             button{
@@ -271,6 +308,21 @@ html, *{
                 display: flex;
                 flex-flow: column nowrap;
                 justify-content: space-between;
+
+                @media screen and (max-width: 800px){
+                    height: 90vh;
+                    width: clamp(200px, 86vw, 800px);
+                }
+
+                .dashboard__tracks-title, .dashboard__artists-title{
+                    margin: 14px 0px;
+                    text-align: center;
+                    font-size: 1.1rem;
+
+                    @media screen and (max-width: 800px){
+                        margin: 8px 0px;
+                    }
+                }
                 
                 .dashboard__tracks-list, .dashboard__artists-list{
                     list-style: none;
@@ -280,6 +332,12 @@ html, *{
                     display: grid;
                     grid-template-columns: 1fr 1fr;
                     align-items: center;
+
+                    @media screen and (max-width: 800px){
+                        display: flex;
+                        flex-flow: column nowrap;
+                        gap: 6px;
+                    }
     
                     li{
                         background-color: $background2;
@@ -291,6 +349,14 @@ html, *{
                         height: clamp(60px, 20%, 100px);
                         display: flex;
                         align-items: center;
+
+                        @media screen and (max-width: 800px){
+                            margin: 0px;
+
+                            &:last-child{
+                                margin-bottom: 3px;
+                            }
+                        }
 
                         p{
                             width: 26ch;
@@ -342,9 +408,9 @@ html, *{
                 justify-content: center;
                 padding: 8px 0px;
 
-                *{
-                    width: 100%;
-                    height: 100%;
+                @media screen and (max-width: 800px){
+                    height: 85vh;
+                    width: clamp(200px, 86vw, 800px);
                 }
             }
 

@@ -6,8 +6,29 @@ CLIENT_INPUT.addEventListener("input", () => {
 });
 CLIENT_INPUT.addEventListener("keydown", (event: any) =>{
     if(event.key == "Enter"){
-        getSpotifyData(localStorage.getItem("clientId"));
+        const verify = verifyInput(localStorage.getItem("clientId"));
+        if(verify === true){
+            clearInput();
+            getSpotifyData(localStorage.getItem("clientId"));
+        }
     }
+});
+
+export function clearInput(){
+    CLIENT_INPUT.value = "";
+}
+
+export function verifyInput(text: string){
+    if(text){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+const TIME_FRAME_INPUT = <HTMLSelectElement> document.getElementById("timeframe-input");
+TIME_FRAME_INPUT.addEventListener("change", () => {
+    localStorage.setItem("timeframe", TIME_FRAME_INPUT.value);
 });
 
 window.onload = () => {
@@ -22,7 +43,7 @@ window.onload = () => {
         case "intro":
             console.log(`progression: intro`);
             break;
-        case "dashboard":   // ! Stuck loop if user uses 'back arrow' or cancels the request
+        case "dashboard":   // ! Stuck loop if user uses 'back arrow' or cancels the request (takes 2 attempts to return to main)
             console.log(`progression: dashboard`);
             showDashboard();
             getSpotifyData(localStorage.getItem("clientId"));

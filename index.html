@@ -37,7 +37,7 @@
                     <div>
                         <h3>3. (Create your app) click the 'create app' button</h3>
                         <p>Most of the inputs are optional, just give your app a name (like Spotify Wrap) 
-                            and in the 'Redirect URI' input, enter " http://localhost:5173/callback ". Check 
+                            and in the 'Redirect URI' input, enter " https://spotify-wrap.vercel.app/callback ". Check 
                             the terms and services and click "save". (If it asks you to enter a description, 
                             fill it in with any optional text: such as 'Spotify Wrap')</p>
                     </div>
@@ -60,7 +60,14 @@
                     <div>
                         <h3>6. Finally, click submit!</h3>
                         <div class="instructions__list-input">
-                            <label htmlFor="client-id-input">
+                            <label for="timeframe-input" class="instruction__timeframe-lbl">Select a length of time:</label>
+                            <select name="time frame" id="timeframe-input" class="timeframe-input-select">
+                                <option value="null">Select a time frame</option>
+                                <option value="short">Last 4 Weeks</option>
+                                <option value="medium">Last 6 Months</option>
+                                <option value="long">Last Several years</option>
+                            </select>
+                            <label for="client-id-input">
                                 <input id="client-id-input" type="text" placeholder="Enter Client ID..."/>
                             </label>
                             <button type="submit" id="instruction__submit-btn">Submit</button>
@@ -76,11 +83,15 @@
 
         <section id="dashboard__section" class="dashboard hide">
             <div class="dashboard__nav">
-                <a id="dashboard__home-btn" href="https://spotify-wrap.vercel.app/">
+                <!-- <a id="dashboard__home-btn" href="https://spotify-wrap.vercel.app/">
+                    <button>Home</button>
+                </a> -->
+                <a id="dashboard__home-btn" href="http://localhost:5173/">
                     <button>Home</button>
                 </a>
             </div>
             <div class="dashboard__tracks">
+                <h3 class="dashboard__tracks-title">Most listened to Tracks</h3>
                 <ul id="dashboard__tracks-list" class="dashboard__tracks-list">
                     <li class="dashboard__tracks-elem"><p>Track w/ title</p></li>
                     <li class="dashboard__tracks-elem"><p>Track w/ title</p></li>
@@ -97,16 +108,17 @@
                     <button id="dashboard__tracks-pagination-btn-prev">Prev</button>
                     <p id="dashboard__tracks-pagination-currPage">1</p>
                     <p>|</p>
-                    <p id="dashboard__tracks-pagination-totalPages">5</p>
+                    <p id="dashboard__tracks-pagination-totalPages">1</p>
                     <button id="dashboard__tracks-pagination-btn-next">Next</button>
                 </div>
             </div>
             <div class="dashboard__pieChart">
-                <canvas id="myChart"></canvas>
+                <canvas id="myChart" width="200" height="200"></canvas>
             </div>
             <div class="dashboard__artists">
+                <h3 class="dashboard__artists-title">Most listened to Artists</h3>
                 <ul id="dashboard__artists-list" class="dashboard__artists-list">
-                    <li class="dashboard__artists-elem"><p>Artists w/ Title (1)</p></li>
+                    <li class="dashboard__artists-elem"><p>Artists w/ Title</p></li>
                     <li class="dashboard__artists-elem"><p>Artists w/ Title</p></li>
                     <li class="dashboard__artists-elem"><p>Artists w/ Title</p></li>
                     <li class="dashboard__artists-elem"><p>Artists w/ Title</p></li>
@@ -121,13 +133,13 @@
                     <button id="dashboard__artists-pagination-btn-prev">Prev</button>
                     <p id="dashboard__artists-pagination-currPage">1</p>
                     <p>|</p>
-                    <p id="dashboard__artists-pagination-totalPages">5</p>
+                    <p id="dashboard__artists-pagination-totalPages">1</p>
                     <button id="dashboard__artists-pagination-btn-next">Next</button>
                 </div>
             </div>
-            <!-- <div class="other">
-                <p>Testing text overflow properties on a long string of characters</p>
-            </div> -->
+            <div class="dashboard__pieChart">
+                <canvas id="myBarChart" width="200" height="200"></canvas>
+            </div>
         </section>
     </body>
     <script type="module" src="/src/index.ts"></script>

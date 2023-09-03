@@ -1,17 +1,44 @@
 import { Chart } from 'chart.js/auto';
+import { verifyInput, clearInput } from '.';
+
+// * Testing on localhost versus on main website
+//export const TESTING_MAIN_URI: string = "http://localhost:5173/";
+//export const TESTING_REDIRECT_URI: string = "http://localhost:5173/callback";
+
+export const TESTING_MAIN_URI: string = "https://spotify-wrap.vercel.app/"
+export const TESTING_REDIRECT_URI: string = "https://spotify-wrap.vercel.app/callback";
 
 const submitBtn = <HTMLButtonElement> document.getElementById("instruction__submit-btn");
 const params = new URLSearchParams(window.location.search);
 const code = params.get("code");
 
 submitBtn.addEventListener("click", () => {
-    getSpotifyData(localStorage.getItem("clientId"));
+    const verify = verifyInput(localStorage.getItem("clientId"));
+    if(verify === true){
+        clearInput();
+        getSpotifyData(localStorage.getItem("clientId"));
+    }
 });
 
 enum TIME_FRAME{
     SHORT = "short_term",
     MEDIUM = "medium_term",
     LONG = "long_term"
+}
+
+function verifyTimeFrame(input: string){
+    switch(input){
+        case "null" || "undefined" || "":
+            return TIME_FRAME.SHORT;
+        case "short":
+            return TIME_FRAME.SHORT;
+        case "medium":
+            return TIME_FRAME.MEDIUM;
+        case "long":
+            return TIME_FRAME.LONG;
+        default:
+            return TIME_FRAME.SHORT;
+    }
 }
 
 enum LIMIT{
@@ -25,11 +52,10 @@ enum CATEGORY{
     ARTISTS = "artists"
 }
 
-// ! Error Handling:
-    // todo: If returned list is less than 10 => blank indexs
-
 var TRACK_PAGINATION_INDEX: number = 0;
 var ARTIST_PAGINATION_INDEX: number = 0;
+const trackPaginationTotalPages: any = document.getElementById("dashboard__tracks-pagination-totalPages");
+const artistPaginationTotalPages: any = document.getElementById("dashboard__artists-pagination-totalPages");
 
 export async function getSpotifyData(id: string){
     if (!code) {
@@ -46,20 +72,50 @@ export async function getSpotifyData(id: string){
 
     async function initialFetch(id: string){
         console.log(`FETCH ACCESS TOKEN`);
-        const accessToken = await getAccessToken(id, code);
 
-        const profile = await fetchProfile(accessToken);
-        const topTracks = await fetchTopTracks(accessToken);
-        const topArtists = await fetchTopArtists(accessToken);
+        const verifier = localStorage.getItem("verifier");
+        const params = new URLSearchParams();
+        params.append("client_id", id);
+        params.append("grant_type", "authorization_code");
+        params.append("code", code);
+        params.append("redirect_uri", TESTING_REDIRECT_URI);
+        params.append("code_verifier", verifier!);
 
-        localStorage.setItem("topTracks", JSON.stringify(topTracks.items));
-        localStorage.setItem("topArtists", JSON.stringify(topArtists.items));
-        localStorage.setItem("profile", JSON.stringify(profile));
+        fetch("https://accounts.spotify.com/api/token", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: params
+        }).then((response: any) => {
+            if(!response.ok){
+                return Promise.reject(response);
+            }
+            return response.json();
+        }).then(async (data: any) => {
+            const profile = await fetchProfile(data.access_token);
+            const topTracks = await fetchTopTracks(data.access_token);
+            const topArtists = await fetchTopArtists(data.access_token);
 
-        displayUser(JSON.parse(localStorage.getItem("profile")));
-        populateTracks(JSON.parse(localStorage.getItem("topTracks")), TRACK_PAGINATION_INDEX);
-        populateArtists(JSON.parse(localStorage.getItem("topArtists")), ARTIST_PAGINATION_INDEX);
-        loadGraphs();
+            localStorage.setItem("topTracks", JSON.stringify(topTracks.items));
+            localStorage.setItem("topArtists", JSON.stringify(topArtists.items));
+            localStorage.setItem("profile", JSON.stringify(profile));
+
+            displayUser(JSON.parse(localStorage.getItem("profile")));
+
+            populateTracks(JSON.parse(localStorage.getItem("topTracks")), TRACK_PAGINATION_INDEX);
+            totalPaginationPages(JSON.parse(localStorage.getItem("topTracks")).length, trackPaginationTotalPages);
+
+            populateArtists(JSON.parse(localStorage.getItem("topArtists")), ARTIST_PAGINATION_INDEX);
+            totalPaginationPages(JSON.parse(localStorage.getItem("topArtists")).length, artistPaginationTotalPages);
+
+            loadGenreGraph();
+            loadPopularityGraph(JSON.parse(localStorage.getItem("topArtists")));
+        })
+        .catch((error: any) => {
+            console.log(`Error: ${error.status} - ${error.statusText}`);
+            localStorage.clear();
+            document.location = TESTING_MAIN_URI;
+            return error.json();
+        });
     }
 
     // function retrieveData(){
@@ -75,6 +131,7 @@ function displayUser(data: any){
     document.title = `Spotify Wrap | ${data.display_name}`;
 }
 
+// ! Stuck in error loop if client_id is incorrect
 export async function redirectToAuthCodeFlow(clientId: string) {
     const verifier = generateCodeVerifier(128);
     const challenge = await generateCodeChallenge(verifier);
@@ -84,7 +141,7 @@ export async function redirectToAuthCodeFlow(clientId: string) {
     const params = new URLSearchParams();
     params.append("client_id", clientId);
     params.append("response_type", "code");
-    params.append("redirect_uri", "https://spotify-wrap.vercel.app/callback");
+    params.append("redirect_uri", TESTING_REDIRECT_URI);
     params.append("scope", "user-read-private user-read-email user-top-read");
     params.append("code_challenge_method", "S256");
     params.append("code_challenge", challenge);
@@ -111,26 +168,6 @@ async function generateCodeChallenge(codeVerifier: string) {
         .replace(/=+$/, '');
 }
 
-export async function getAccessToken(clientId: string, code: string): Promise<string> {
-    const verifier = localStorage.getItem("verifier");
-
-    const params = new URLSearchParams();
-    params.append("client_id", clientId);
-    params.append("grant_type", "authorization_code");
-    params.append("code", code);
-    params.append("redirect_uri", "https://spotify-wrap.vercel.app/callback");
-    params.append("code_verifier", verifier!);
-
-    const result = await fetch("https://accounts.spotify.com/api/token", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: params
-    });
-
-    const { access_token } = await result.json();
-    return access_token;
-}
-
 async function fetchProfile(token: string): Promise<any> {
     const result = await fetch("https://api.spotify.com/v1/me", {
         method: "GET", headers: { Authorization: `Bearer ${token}` }
@@ -141,7 +178,7 @@ async function fetchProfile(token: string): Promise<any> {
 
 async function fetchTopTracks(token: string): Promise<any>{
     
-    const result = await fetch(`https://api.spotify.com/v1/me/top/${CATEGORY.TRACKS}?time_range=${TIME_FRAME.MEDIUM}&limit=${LIMIT.MAX}&offset=0`, {
+    const result = await fetch(`https://api.spotify.com/v1/me/top/${CATEGORY.TRACKS}?time_range=${verifyTimeFrame(localStorage.getItem("timeframe"))}&limit=${LIMIT.MAX}&offset=0`, {
         method: "GET", headers: {Authorization: `Bearer ${token}`}
     });
 
@@ -149,7 +186,7 @@ async function fetchTopTracks(token: string): Promise<any>{
 }
 
 async function fetchTopArtists(token: string): Promise<any>{
-    const result = await fetch(`https://api.spotify.com/v1/me/top/${CATEGORY.ARTISTS}?limit=${LIMIT.MAX}&offset=0&time_range=${TIME_FRAME.MEDIUM}`, {
+    const result = await fetch(`https://api.spotify.com/v1/me/top/${CATEGORY.ARTISTS}?limit=${LIMIT.MAX}&offset=0&time_range=${verifyTimeFrame(localStorage.getItem("timeframe"))}`, {
         method: "GET", headers: {Authorization: `Bearer ${token}`}
     });
 
@@ -158,7 +195,6 @@ async function fetchTopArtists(token: string): Promise<any>{
 
 const trackPaginationBtn: any = document.querySelectorAll(".dashboard__tracks-pagination button");
 const trackPaginationCurrPage: any = document.getElementById("dashboard__tracks-pagination-currPage");
-
 
 trackPaginationBtn.forEach((btn: HTMLButtonElement) => {
     btn.addEventListener("click", (btn: any) => {
@@ -173,11 +209,19 @@ trackPaginationBtn.forEach((btn: HTMLButtonElement) => {
     });
 });
 
+function totalPaginationPages(total: number, elem: HTMLElement){
+    let max: number = total / 10;
+    if(total % 10 === 0){
+        elem.innerText = `${max}`;
+    }
+    elem.innerText = `${Math.ceil(max)}`;
+}
+
 function trackPaginationHandler(tracks: Array<object>, indicator: string){
     if(indicator === "prev" && TRACK_PAGINATION_INDEX !== 0){
         populateTracks(tracks, TRACK_PAGINATION_INDEX - 10);
         TRACK_PAGINATION_INDEX -= 10;
-    } else if(indicator === "next" && TRACK_PAGINATION_INDEX !== 40){
+    } else if(indicator === "next" && TRACK_PAGINATION_INDEX !== (tracks.length - 10)){
         populateTracks(tracks, TRACK_PAGINATION_INDEX + 10);
         TRACK_PAGINATION_INDEX += 10;
     }
@@ -188,7 +232,7 @@ function artistPaginationHandler(tracks: Array<object>, indicator: string){
     if(indicator === "prev" && ARTIST_PAGINATION_INDEX !== 0){
         populateArtists(tracks, ARTIST_PAGINATION_INDEX - 10);
         ARTIST_PAGINATION_INDEX -= 10;
-    } else if(indicator === "next" && ARTIST_PAGINATION_INDEX !== 40){
+    } else if(indicator === "next" && ARTIST_PAGINATION_INDEX !== (tracks.length - 10)){
         populateArtists(tracks, ARTIST_PAGINATION_INDEX + 10);
         ARTIST_PAGINATION_INDEX += 10;
     }
@@ -291,7 +335,7 @@ export function gatherGenres(array: Array<any>){
     return genre_container.sort((a: any, b: any) => {return b.count - a.count});
 }
 
-function loadGraphs(){
+function loadGenreGraph(){
     const genres_holder: any = gatherGenres(JSON.parse(localStorage.getItem("topArtists")));
     var labels_array: Array<string> = [], occurrence_array: Array<number> = [];
 
@@ -311,7 +355,7 @@ function loadGraphs(){
         }]
     };
 
-    const chart = new Chart(ctx, {
+    new Chart(ctx, {
         type: 'pie',
         data: data,
         options: {
@@ -327,6 +371,40 @@ function loadGraphs(){
             }
         }
     });
+}
 
-    console.log(chart);
+function loadPopularityGraph(array: Array<any>){
+    var artists_array: Array<string> = [], popularity_array: Array<number> = [];
+
+    for(let currIndex = 0; currIndex < 10; currIndex++){
+        artists_array.push(array[currIndex].name);
+        popularity_array.push(array[currIndex].popularity);
+    }
+
+    const ctx = document.getElementById('myBarChart') as HTMLCanvasElement;
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+        labels: artists_array,
+        datasets: [{
+            label: 'Artist Popularity',
+            data: popularity_array,
+            borderWidth: 1
+        }]
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: "Popularity of Top 10 Artists (0-100)"
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
 }
