@@ -2,8 +2,8 @@ import { Chart } from 'chart.js/auto';
 import { verifyInput, clearInput } from '.';
 
 // * Testing on localhost versus on main website
-//export const TESTING_MAIN_URI: string = "http://localhost:5173/";
-//export const TESTING_REDIRECT_URI: string = "http://localhost:5173/callback";
+// export const TESTING_MAIN_URI: string = "http://localhost:5173/";
+// export const TESTING_REDIRECT_URI: string = "http://localhost:5173/callback";
 
 export const TESTING_MAIN_URI: string = "https://spotify-wrap.vercel.app/";
 export const TESTING_REDIRECT_URI: string = "https://spotify-wrap.vercel.app/callback";

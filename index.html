@@ -13,10 +13,6 @@
         </section>
 
         <section id="instructions__section" class="instructions">
-            <!-- <div>
-                <h1 class="instructions__title">Getting Started</h1>
-                <button>Back</button>
-            </div> -->
             <ul class="instructions__list">
                 <li>
                     <div>
@@ -35,11 +31,16 @@
                 </li>
                 <li>
                     <div>
-                        <h3>3. (Create your app) click the 'create app' button</h3>
-                        <p>Most of the inputs are optional, just give your app a name (like Spotify Wrap) 
-                            and in the 'Redirect URI' input, enter " https://spotify-wrap.vercel.app/callback ". Check 
-                            the terms and services and click "save". (If it asks you to enter a description, 
-                            fill it in with any optional text: such as 'Spotify Wrap')</p>
+                        <h3>3. Create your app</h3>
+                            <p>Click the Create your app button; most inputs are optional, 
+                                just provide your app with a name like Spotify Wrap. 
+                                Next copy the below URL into the 'Redirect URI' input 
+                                (click button): https://spotify-wrap.vercel.app/callback<span>
+                                    <button title="Copy to Clipboard" class="copy_url-btn" id="copy_url-btn">
+                                        <i class="fa-regular fa-clipboard"></i>
+                                    </button>
+                                </span>
+                            </p>
                     </div>
                     <img src="/createApp.jpeg" alt="Create App" />
                 </li>
@@ -83,12 +84,12 @@
 
         <section id="dashboard__section" class="dashboard hide">
             <div class="dashboard__nav">
-                <!-- <a id="dashboard__home-btn" href="https://spotify-wrap.vercel.app/">
-                    <button>Home</button>
-                </a> -->
                 <a id="dashboard__home-btn" href="https://spotify-wrap.vercel.app/">
                     <button>Home</button>
                 </a>
+                <!-- <a id="dashboard__home-btn" href="http://localhost:5173/">
+                    <button>Home</button>
+                </a> -->
             </div>
             <div class="dashboard__tracks">
                 <h3 class="dashboard__tracks-title">Most listened to Tracks</h3>
@@ -145,4 +146,6 @@
     <script type="module" src="/src/index.ts"></script>
     <script type="module" src="/src/script.ts"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Font Awesome-->
+    <script src="https://kit.fontawesome.com/f06ad63a54.js" crossorigin="anonymous"></script>
 </html>

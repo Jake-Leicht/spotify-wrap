@@ -9,11 +9,13 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@types/jquery": "^3.5.18",
     "typescript": "^5.0.2",
     "vite": "^4.4.5"
   },
   "dependencies": {
     "chart.js": "^4.3.3",
+    "jquery": "^3.7.1",
     "sass": "^1.65.1"
   }
 }

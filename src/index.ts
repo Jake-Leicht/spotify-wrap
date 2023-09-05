@@ -1,4 +1,4 @@
-import { getSpotifyData } from "./script";
+import { getSpotifyData, TESTING_MAIN_URI, TESTING_REDIRECT_URI} from "./script";
 
 const CLIENT_INPUT = <HTMLInputElement> document.getElementById("client-id-input");
 CLIENT_INPUT.addEventListener("input", () => {
@@ -31,8 +31,17 @@ TIME_FRAME_INPUT.addEventListener("change", () => {
     localStorage.setItem("timeframe", TIME_FRAME_INPUT.value);
 });
 
+var delay: number = 30000;  // * 30,000 ms === 0.5 minutes
+var timer: any = null;
+window.addEventListener("mousemove", () => {
+    if (timer) clearTimeout(timer);
+        timer = setTimeout(function(){
+            localStorage.clear();
+            document.location = TESTING_MAIN_URI;
+    }, delay);
+});
+
 window.onload = () => {
-    //localStorage.clear();
     document.getElementById("body").scrollIntoView();
 
     switch(localStorage.getItem("progression")){
@@ -82,3 +91,11 @@ backBtn.addEventListener("click", () => {localStorage.setItem("progression", "in
 
 // * Scroll to Section
 introBtn.addEventListener("click", () => {instructionElem.scrollIntoView()});
+
+// * Clip board
+document.getElementById("copy_url-btn").addEventListener("click", () => {
+    navigator.clipboard.writeText(
+        TESTING_REDIRECT_URI
+    );
+    alert(`'${TESTING_REDIRECT_URI}' has been copied to your clipboard`);
+});
